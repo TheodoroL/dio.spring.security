@@ -23,7 +23,10 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/login").permitAll() // Permite acesso à página de login
-                        .anyRequest().authenticated() // Exige login para qualquer outra rota
+                        .requestMatchers("/users").hasAnyRole("USERS", "MANAGERS")
+                        .requestMatchers("/managers").hasRole("MANAGERS")
+                        .anyRequest().authenticated() // Exige login para qualquer outra rot
+
                 )
                 .formLogin(form -> form
                         .defaultSuccessUrl("/", true) // Redireciona para a home após login
